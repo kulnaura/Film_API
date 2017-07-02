@@ -201,16 +201,20 @@ func(f *film) Rent(filmID int, userID int) (notExist bool, err error) {
 		notExist = false
 		return
 	}
+	filmNotExist = false
 	if film.ID == 0 {
-		notExist = true
-		return
+		filmNotExist = true
 	}
 	rent, err := f.readRentByFilmAndUser(filmID, userID)
 	if err != nil {
 		notExist = false
 		return
 	}
+	rentNotExist = false
 	if rent.ID == 0 {
+		rentNotExist = true
+	}
+	if (filmNotExist && rentNotExist) {
 		notExist = true
 		return
 	}
